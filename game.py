@@ -25,7 +25,6 @@ class Card:
             for type in self.types:
                 self.cards.append((type, i))
         random.shuffle(self.cards)
-        print(self.cards)
 
 
 class Player:
