@@ -19,12 +19,13 @@ class Card:
     def suffle_card(self):
         indexs = [i for i in range(1,14)]
         # shuffle the value first
-        random.shuffle(indexs)
 
         # give the shuffle deck card
         for i in indexs:
             for type in self.types:
                 self.cards.append((type, i))
+        random.shuffle(self.cards)
+        print(self.cards)
 
 
 class Player:
