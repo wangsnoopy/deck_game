@@ -16,7 +16,7 @@ class Card:
         self.types = ['spade', 'heart', 'diamond', 'club']
         self.cards = []
 
-    def suffle_card(self):
+    def shuffle_card(self):
         indexs = [i for i in range(1,14)]
         # shuffle the value first
 
@@ -40,7 +40,7 @@ class Game:
     
     def get_cards(self):
         cur_cards = Card()
-        cur_cards.suffle_card()
+        cur_cards.shuffle_card()
 
         # give each player their card
         for i in range(26):
