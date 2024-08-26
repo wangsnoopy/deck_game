@@ -12,10 +12,10 @@
 import random
 
 class CardDeck():
-    suits = ['spade', 'heart', 'diamond', 'club']
-    vals = [i for i in range(1,14)]
     def __init__(self):
-        self.cards = [Card(suit, val) for suit in self.suits for val in self.vals]
+        self.suits = {'spade': 4, 'heart': 3, 'diamond': 2, 'club': 1}
+        self.vals = [i for i in range(1,14)]
+        self.cards = [Card(suit, val) for suit in self.suits.values() for val in self.vals]
         random.shuffle(self.cards)
 
 class Card:
@@ -26,11 +26,7 @@ class Card:
         if self.val > other.val:
             return True
         if self.val == other.val:
-            if self.suit == 'spade':
-                return True
-            if self.suit == 'heart' and other.suit != 'spade':
-                return True
-            if self.suit == 'diamond' and other.suit == 'club':
+            if self.suit > other.suit:
                 return True
             else:
                 return False
@@ -40,11 +36,7 @@ class Card:
         if self.val < other.val:
             return True
         if self.val == other.val:
-            if other.suit == 'spade':
-                return True
-            if other.suit == 'heart' and self.suit != 'spade':
-                return True
-            if other.suit == 'diamond' and self.suit == 'club':
+            if self.suit < other.suit:
                 return True
             else:
                 return False
@@ -59,7 +51,8 @@ class Game:
     def __init__(self):
         self.player1 = Player()
         self.player2 = Player()
-        self.cards = CardDeck().cards
+        self.card_deck = CardDeck()
+        self.cards = self.card_deck.cards
     
     def get_cards(self):
         # get deck cards
