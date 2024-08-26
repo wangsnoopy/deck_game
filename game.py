@@ -58,11 +58,8 @@ class Game:
         # get deck cards
 
         # give each player their card
-        for i in range(26):
-            self.player1.cards.append(self.cards[i])
-
-        for i in range(26,52):
-            self.player2.cards.append(self.cards[i])
+        self.player1.cards = self.cards[:26]
+        self.player2.cards = self.cards[26::]
 
     def play_game(self):
         self.get_cards()
