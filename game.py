@@ -11,43 +11,44 @@
 # It’s considered a simulation because the players don’t have any choice, dont worry about input
 import random
 
-
 class CardDeck():
+    suits = ['spade', 'heart', 'diamond', 'club']
+    vals = [i for i in range(1,14)]
     def __init__(self):
-        self.types = ['spade', 'heart', 'diamond', 'club']
-        self.vals = [i for i in range(1, 14)]
-
-class Card:
-    def __init__(self):
-        self.cards = []
-
-    def shuffle_card(self):
-        vals = CardDeck().vals
-        types = CardDeck().types
-        for val in vals:
-            for type in types:
-                self.cards.append((type, val))
+        self.cards = [(suit, val) for suit in self.suits for val in self.vals]
         random.shuffle(self.cards)
 
-    def compare_card(self, card_one, card_two): # input card_one, card_two == (type, value)
-        type_one, val_one = card_one
-        type_two, val_two = card_two
-        # compare the val first
-        if val_one > val_two:
-            return 1
-        elif val_two > val_one:
-            return 2
-        # same val
-        else:
-            # compare the type
-            if type_one == 'spade':
-                return 1
-            elif type_one == 'heart' and type_two != 'spade':
-                return 1
-            elif type_one == 'diamond' and type_two == 'club':
-                return 1
+class Card:
+    def __init__(self, s, v): # card: (type, val)
+        self.suit = s
+        self.val = v
+    def __gt__(self, other):
+        if self.val > other.val:
+            return True
+        if self.val == other.val:
+            if self.suit == 'spade':
+                return True
+            if self.suit == 'heart' and other.suit != 'spade':
+                return True
+            if self.suit == 'diamond' and other.suit == 'club':
+                return True
             else:
-                return 2
+                return False
+        return False
+    
+    def __lt__(self, other):
+        if self.val < other.val:
+            return True
+        if self.val == other.val:
+            if other.suit == 'spade':
+                return True
+            if other.suit == 'heart' and self.suit != 'spade':
+                return True
+            if other.suit == 'diamond' and self.suit == 'club':
+                return True
+            else:
+                return False
+        return False
 
 class Player:
     def __init__(self):
@@ -58,29 +59,32 @@ class Game:
     def __init__(self):
         self.player1 = Player()
         self.player2 = Player()
+        self.cards = CardDeck().cards
     
     def get_cards(self):
-        cur_cards = Card()
-        cur_cards.shuffle_card()
+        # get deck cards
 
         # give each player their card
         for i in range(26):
-            self.player1.cards.append(cur_cards.cards[i])
+            self.player1.cards.append(self.cards[i])
 
         for i in range(26,52):
-            self.player2.cards.append(cur_cards.cards[i])
+            self.player2.cards.append(self.cards[i])
 
     def play_game(self):
         self.get_cards()
 
         # each player get top of the card
         for i in range(26):
-            card_one = self.player1.cards.pop()
-            card_two = self.player2.cards.pop()
-            if Card().compare_card(card_one, card_two) == 1:
+            typ1, val1 = self.player1.cards.pop()
+            typ2, val2 = self.player2.cards.pop()
+            card1 = Card(typ1, val1)
+            card2 = Card(typ2, val2)
+            if card1 > card2:
                 self.player1.score += 1
             else:
                 self.player2.score += 1
+            
 
         # get the winner
         if self.player1.score > self.player2.score:
@@ -90,10 +94,6 @@ class Game:
         else:
             print('Draw, no winner')
 
-
 if __name__ == '__main__':
-    # Create a game
-    game = Game()
-
-    # play the game
-    game.play_game()
+    test = Game()
+    test.play_game()
