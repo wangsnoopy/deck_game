@@ -25,7 +25,7 @@ class Card:
     def __gt__(self, other):
         if self.val > other.val:
             return True
-        if self.val == other.val:
+        elif self.val == other.val:
             if self.suit > other.suit:
                 return True
             else:
@@ -35,7 +35,7 @@ class Card:
     def __lt__(self, other):
         if self.val < other.val:
             return True
-        if self.val == other.val:
+        elif self.val == other.val:
             if self.suit < other.suit:
                 return True
             else:
