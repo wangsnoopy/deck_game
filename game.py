@@ -15,7 +15,7 @@ class CardDeck():
     suits = ['spade', 'heart', 'diamond', 'club']
     vals = [i for i in range(1,14)]
     def __init__(self):
-        self.cards = [(suit, val) for suit in self.suits for val in self.vals]
+        self.cards = [Card(suit, val) for suit in self.suits for val in self.vals]
         random.shuffle(self.cards)
 
 class Card:
@@ -76,10 +76,9 @@ class Game:
 
         # each player get top of the card
         for i in range(26):
-            typ1, val1 = self.player1.cards.pop()
-            typ2, val2 = self.player2.cards.pop()
-            card1 = Card(typ1, val1)
-            card2 = Card(typ2, val2)
+            card1 = self.player1.cards.pop()
+            card2 = self.player2.cards.pop()
+            
             if card1 > card2:
                 self.player1.score += 1
             else:
